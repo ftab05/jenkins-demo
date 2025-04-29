@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Add some large files to increase image size (~100MB)
-RUN wget -O /sample1.zip https://speed.hetzner.de/100MB.bin && \
-    wget -O /sample2.zip https://speed.hetzner.de/100MB.bin
+RUN wget --no-check-certificate -O /sample1.zip https://speed.hetzner.de/100MB.bin && \
+    wget --no-check-certificate -O /sample2.zip https://speed.hetzner.de/100MB.bin
 
 # Dummy app (for completeness)
 RUN echo "print('Hello from heavy image')" > /hello.py

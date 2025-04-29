@@ -2,10 +2,9 @@ FROM ubuntu:22.04
 
 USER root
 
-# Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install a bunch of tools and languages
+# Install a bunch of common heavy packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-17-jdk \
     python3 \
@@ -18,14 +17,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     ffmpeg \
     nodejs \
-    npm \
-    && rm -rf /var/lib/apt/lists/*
+    npm && \
+    rm -rf /var/lib/apt/lists/*
 
-# Add some large files to increase image size (~100MB)
-RUN wget --no-check-certificate -O /sample1.zip https://speed.hetzner.de/100MB.bin && \
-    wget --no-check-certificate -O /sample2.zip https://speed.hetzner.de/100MB.bin
+# Download large test files (~200MB total)
+RUN wget -O /sample1.zip https://proof.ovh.net/files/100Mb.dat && \
+    wget -O /sample2.zip https://proof.ovh.net/files/100Mb.dat
 
-# Dummy app (for completeness)
+# Add a dummy script
 RUN echo "print('Hello from heavy image')" > /hello.py
 
 CMD ["python3", "/hello.py"]
